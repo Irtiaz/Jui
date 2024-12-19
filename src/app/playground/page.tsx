@@ -4,6 +4,7 @@ import MonacoEditor from "@monaco-editor/react";
 import React, {useEffect} from "react";
 import { useState } from "react";
 import axios from "axios";
+import {Button} from "flowbite-react";
 
 import { setupMonaco } from "@/utils/setupMonaco";
 
@@ -52,6 +53,9 @@ export default function Playground() {
 					beforeMount={setupMonaco}
 					theme="Jui-dark"
 					onChange={value => setCode(value || "")}
+					options={{
+						fontSize: 26
+					}}
 				/>
 			</div>
 			<div className="flex m-6">
@@ -65,7 +69,7 @@ export default function Playground() {
 					<textarea disabled rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Output from the program" value={outputString}/>
 				</div>
 			</div>
-			<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleRun}>Run</button>
+			<Button color="success" onClick={handleRun} disabled={code.trim().length === 0}>Run</Button>
 
 			{errorString !== null && errorString.length !== 0 &&
 			<div className="fixed bottom-0 w-full flex items-center justify-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
