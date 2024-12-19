@@ -1,6 +1,5 @@
 'use client'
 
-import * as monaco from "monaco-editor";
 import MonacoEditor from "@monaco-editor/react";
 import React from "react";
 import { useState } from "react";
@@ -20,8 +19,7 @@ export default function Home() {
 	const [ code, setCode ] = useState("");
 	const [ inputString, setInputString ] = useState("");
 	const [ outputString, setOutputString ] = useState("");
-
-	const [ editor, setEditor ] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
+	const [ errorString, setErrorString ] = useState<string | null>(null);
 
 	const handleRun = async () => {
 		const result = await axios.post<RunResult>('/api/run', {
@@ -32,20 +30,8 @@ export default function Home() {
 		const { output, error } = data;
 		console.log({ output, error });
 		setOutputString(error !== null || output === null? "" : output);
-		
-		if (error !== null) {
-			/*
-			editor?.createDecorationsCollection([{
-				range: new monaco.Range(error.lineNumber, 1, error.lineNumber, 1),
-				options: {
-					isWholeLine: true,
-					className: "error-line",
-					glyphMarginClassName: "error-glyph",
-					hoverMessage: { value: `Error at ${error.token}` }
-				}
-			}]);
-			 */
-		}
+
+		setErrorString(error !== null? `At ${error.token} at line number ${error.lineNumber}` : null);
 	}
 
 	return (
@@ -56,7 +42,6 @@ export default function Home() {
 					defaultLanguage="Jui"
 					defaultValue={code}
 					beforeMount={setupMonaco}
-					onMount={editorInstance => setEditor(editorInstance)}
 					theme="Jui-dark"
 					onChange={value => setCode(value || "")}
 				/>
@@ -73,6 +58,18 @@ export default function Home() {
 				</div>
 			</div>
 			<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleRun}>Run</button>
+
+			{errorString !== null && errorString.length !== 0 &&
+			<div className="fixed bottom-0 w-full flex items-center justify-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+				<svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+					<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+				</svg>
+				<span className="sr-only">Info</span>
+				<div>
+					<span className="font-medium">Compilation Error: </span>{errorString}
+				</div>
+			</div>
+			}
 		</div>
 	);
 }
