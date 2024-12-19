@@ -30,7 +30,6 @@ export default function Playground() {
 			});
 			const data = result.data;
 			const { output, error } = data;
-			console.log({ output, error });
 			setOutputString(error !== null || output === null? "" : output);
 
 			setErrorString(error !== null? `Compilation Error At ${error.token} at line number ${error.lineNumber}` : null);
@@ -39,9 +38,21 @@ export default function Playground() {
 		}
 	}
 
-	useEffect(() => {
+	const handleCodeType = (currentCode: string) => {
+		setCode(currentCode);
 		setErrorString(null);
-	}, [code])
+		window.localStorage.setItem("code", currentCode);
+	}
+
+	const handleInputType = (currentInput: string) => {
+		setInputString(currentInput);
+		window.localStorage.setItem("input", currentInput);
+	}
+
+	useEffect(() => {
+		setInputString(window.localStorage.getItem("input") || "");
+		setCode(window.localStorage.getItem("code") || "");
+	}, []);
 
 	return (
 		<div className="ml-8 mr-8">
@@ -52,20 +63,20 @@ export default function Playground() {
 					defaultValue={code}
 					beforeMount={setupMonaco}
 					theme="Jui-dark"
-					onChange={value => setCode(value || "")}
+					onChange={value => handleCodeType(value || "")}
 					options={{
-						fontSize: 26
+						fontSize: 26,
 					}}
 				/>
 			</div>
 			<div className="flex m-6">
 				<div className="flex-auto mr-4">
-					<div className="text-center">Input</div>
-					<textarea rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Input to the program" onChange={event => setInputString(event.target.value)} />
+					<div className="text-center text-white">Input</div>
+					<textarea rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Input to the program" onChange={event => handleInputType(event.target.value)} value={inputString} />
 				</div>
 
 				<div className="flex-auto mr-4">
-					<div className="text-center">Output</div>
+					<div className="text-center text-white">Output</div>
 					<textarea disabled rows={10} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Output from the program" value={outputString}/>
 				</div>
 			</div>
