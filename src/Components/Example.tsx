@@ -20,6 +20,8 @@ const Example: React.FC<ExampleProps> = ({ header, description, code, sampleInpu
 		window.localStorage.setItem("input", sampleInput);
 	};
 
+	const fontSize = 20;
+
 	return (
 		<Card className="bg-gray-900" style={{margin: "2em", border: "1px solid grey", boxShadow: "5px 10px #111111"}}>
 			<h5 className="text-2xl text-center font-semibold mb-3">{header}</h5>
@@ -28,13 +30,13 @@ const Example: React.FC<ExampleProps> = ({ header, description, code, sampleInpu
 			<div className="mb-5">
 				<h6 className="text-xs font-semibold mb-2">Code:</h6>
 				<MonacoEditor
-					height={`${Math.min(40, code.split("\n").length * 3)}vh`} // Dynamically calculate height
+					height={`${Math.min(40, code.split("\n").length * 3 * fontSize / 20)}vh`} // Dynamically calculate height
 					defaultLanguage="Jui"
 					defaultValue={code}
 					beforeMount={setupMonaco}
 					theme="Jui-dark"
 					options={{
-						fontSize: 20,
+						fontSize: fontSize,
 						readOnly: true,
 						wordWrap: "on",
 						scrollBeyondLastLine: false, // Prevent scrolling past the last line
