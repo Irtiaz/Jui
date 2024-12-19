@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HomePage() {
 	return (
-		<div className="text-white min-h-screen flex flex-col items-center py-10 px-6">
+		<div className="min-h-screen flex flex-col items-center py-10 px-6">
 			<header className="text-center mb-10">
 				<h1 className="text-4xl font-bold mb-4">Welcome to Jui</h1>
 				<p className="text-xl text-gray-400">
