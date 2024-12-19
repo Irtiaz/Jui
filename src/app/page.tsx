@@ -1,7 +1,7 @@
 'use client'
 
 import MonacoEditor from "@monaco-editor/react";
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import axios from "axios";
 
@@ -22,17 +22,25 @@ export default function Home() {
 	const [ errorString, setErrorString ] = useState<string | null>(null);
 
 	const handleRun = async () => {
-		const result = await axios.post<RunResult>('/api/run', {
-			code: code,
-			input: inputString
-		});
-		const data = result.data;
-		const { output, error } = data;
-		console.log({ output, error });
-		setOutputString(error !== null || output === null? "" : output);
+		try {
+			const result = await axios.post<RunResult>('/api/run', {
+				code: code,
+				input: inputString
+			});
+			const data = result.data;
+			const { output, error } = data;
+			console.log({ output, error });
+			setOutputString(error !== null || output === null? "" : output);
 
-		setErrorString(error !== null? `At ${error.token} at line number ${error.lineNumber}` : null);
+			setErrorString(error !== null? `Compilation Error At ${error.token} at line number ${error.lineNumber}` : null);
+		} catch (_) {
+			setErrorString("Runtime Timeout");
+		}
 	}
+
+	useEffect(() => {
+		setErrorString(null);
+	}, [code])
 
 	return (
 		<div className="ml-8 mr-8">
@@ -66,7 +74,7 @@ export default function Home() {
 				</svg>
 				<span className="sr-only">Info</span>
 				<div>
-					<span className="font-medium">Compilation Error: </span>{errorString}
+					<span className="font-medium">Error: </span>{errorString}
 				</div>
 			</div>
 			}
