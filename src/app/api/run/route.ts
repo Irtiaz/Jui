@@ -36,7 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 		await execPromise(`./jui ${codeFile} ${executableFile}`);
 		fs.unlinkSync(codeFile);
 	} catch (e) {
-		const errorMessage = (e as any).stderr.split("\n")[1];
+		const errorMessage = (e as {stderr: string}).stderr.split("\n")[1];
 		const errorMessageWords = errorMessage.split(" ");
 		const erroneousToken = errorMessageWords[1];
 		const lineNumber = parseInt(errorMessageWords[errorMessageWords.length - 1]);
