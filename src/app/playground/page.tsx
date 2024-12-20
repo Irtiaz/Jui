@@ -16,10 +16,15 @@ interface RunResult {
 }
 
 export default function Playground() {
-	const [ code, setCode ] = useState(window.localStorage.getItem("code") || "");
-	const [ inputString, setInputString ] = useState(window.localStorage.getItem("input") || "");
+	const [ code, setCode ] = useState("");
+	const [ inputString, setInputString ] = useState("");
 	const [ outputString, setOutputString ] = useState("");
 	const [ errorString, setErrorString ] = useState<string | null>(null);
+
+	useEffect(() => {
+		setCode(window.localStorage.getItem("code") || "");
+		setInputString(window.localStorage.getItem("input") || "");
+	}, []);
 
 	const handleRun = async () => {
 		try {

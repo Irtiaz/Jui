@@ -1,6 +1,6 @@
 "use client"
 
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import SimpleCodeEditor from "react-simple-code-editor"
 import { nanoid } from "nanoid"
 
@@ -16,6 +16,10 @@ type Props = {
 
 export const Editor: React.FC<Props> = ({ defaultCode, styleDecider, style, padding, specialSplits, onCodeChange, disabled }) => {
 	const [ code, setCode ] = useState(defaultCode || "");
+
+	useEffect(() => {
+		setCode(defaultCode || "");
+	}, [defaultCode]);
 
 	const tokenizer = (word: string) => {
 		if (specialSplits === undefined) return [word];
