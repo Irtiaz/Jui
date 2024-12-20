@@ -36,7 +36,7 @@ export default function Playground() {
 			const { output, error } = data;
 			setOutputString(error !== null || output === null? "" : output);
 
-			setErrorString(error !== null? `Compilation Error At ${error.token} at line number ${error.lineNumber}` : null);
+			setErrorString(error !== null? `At ${error.token} at line ${error.lineNumber}` : null);
 		} catch (_) {
 			setErrorString("Runtime Timeout");
 		}
