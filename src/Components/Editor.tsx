@@ -54,8 +54,8 @@ export const Editor: React.FC<Props> = ({ defaultCode, styleDecider, style, padd
 		const lines = wholeCode.split("\n");
 		return (
 			<>
-				{lines.map(line => <div key={nanoid()}>
-					{line.split(" ").map(highlightWord)}
+				{lines.map((line, index) => <div key={nanoid()}>
+					<span className="editorLineNumber">{index + 1}</span>{line.split(" ").map(highlightWord)}
 				</div>)}
 			</>
 		);
@@ -63,6 +63,8 @@ export const Editor: React.FC<Props> = ({ defaultCode, styleDecider, style, padd
 
 	return (
 		<SimpleCodeEditor
+			className="editor"
+			textareaId="codeArea"
 			value={code}
 			onValueChange={handleCodeChange}
 			highlight={wholeCode => highlight(wholeCode)}

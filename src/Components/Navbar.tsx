@@ -10,7 +10,7 @@ export function NavigationBar() {
 		<Navbar fluid rounded className="text-black">
 			<NavbarBrand as={Link} href="/">
 				<img src="/favicon.ico" className="mr-3 h-6 sm:h-9" alt="Jui Logo" />
-				<span className="self-center whitespace-nowrap text-xl font-semibold" style={{color: "black"}}>Jui</span>
+				<span className="self-center whitespace-nowrap text-xl font-semibold" style={{color: "black"}}>JUI</span>
 			</NavbarBrand>
 			<NavbarCollapse>
 				<NavLink href="/" name="Home" pathname={pathname}/>
