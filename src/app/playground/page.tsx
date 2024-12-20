@@ -1,12 +1,11 @@
 'use client'
 
-import MonacoEditor from "@monaco-editor/react";
 import React, {useEffect} from "react";
 import { useState } from "react";
 import axios from "axios";
 import {Button} from "flowbite-react";
 
-import { setupMonaco } from "@/utils/setupMonaco";
+import {JuiEditor} from "@/Components/JuiEditor";
 
 interface RunResult {
 	output: string | null;
@@ -17,8 +16,8 @@ interface RunResult {
 }
 
 export default function Playground() {
-	const [ code, setCode ] = useState("");
-	const [ inputString, setInputString ] = useState("");
+	const [ code, setCode ] = useState(window.localStorage.getItem("code") || "");
+	const [ inputString, setInputString ] = useState(window.localStorage.getItem("input") || "");
 	const [ outputString, setOutputString ] = useState("");
 	const [ errorString, setErrorString ] = useState<string | null>(null);
 
@@ -49,23 +48,19 @@ export default function Playground() {
 		window.localStorage.setItem("input", currentInput);
 	}
 
-	useEffect(() => {
-		setInputString(window.localStorage.getItem("input") || "");
-		setCode(window.localStorage.getItem("code") || "");
-	}, []);
-
 	return (
 		<div className="ml-8 mr-8">
 			<div className="mb-6">
-				<MonacoEditor
-					height="50vh"
-					defaultLanguage="Jui"
-					defaultValue={code}
-					beforeMount={setupMonaco}
-					theme="Jui-dark"
-					onChange={value => handleCodeType(value || "")}
-					options={{
-						fontSize: 26,
+				<JuiEditor
+					defaultCode={code}
+					onCodeChange={currentCode => handleCodeType(currentCode || "")}
+					padding={10}
+					style={{
+						marginTop: "1em",
+						fontFamily: '"Fira code", "Fira Mono", monospace',
+						fontSize: 12,
+						backgroundColor: "#282c34",
+						color: "#abb2bf"
 					}}
 				/>
 			</div>

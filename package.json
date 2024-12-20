@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@monaco-editor/react": "^4.6.0",
     "axios": "^1.7.9",
     "flowbite-react": "^0.10.2",
-    "monaco-editor": "^0.52.2",
+    "nanoid": "^5.0.9",
     "next": "15.1.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-simple-code-editor": "^0.14.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

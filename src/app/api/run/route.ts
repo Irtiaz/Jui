@@ -42,6 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 		const lineNumber = parseInt(errorMessageWords[errorMessageWords.length - 1]);
 
 		fs.unlinkSync(codeFile);
+		if (fs.existsSync(inputFile)) fs.unlinkSync(inputFile);
 		exec('rm *.c -f');
 		return NextResponse.json({
 			output: null,
