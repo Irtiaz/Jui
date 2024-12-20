@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, Button } from "flowbite-react";
+import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, Button } from "flowbite-react";
 import {usePathname} from "next/navigation";
 
 export function NavigationBar() {
@@ -12,7 +12,6 @@ export function NavigationBar() {
 				<img src="/favicon.ico" className="mr-3 h-6 sm:h-9" alt="Jui Logo" />
 				<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Jui</span>
 			</NavbarBrand>
-			<NavbarToggle />
 			<NavbarCollapse>
 				<NavLink href="/" name="Home" pathname={pathname}/>
 				<NavLink href="/examples" name="Examples" pathname={pathname}/>
@@ -20,7 +19,7 @@ export function NavigationBar() {
 			</NavbarCollapse>
 			<div className="flex md:order-2">
 				<Link href="/get-started">
-					<Button>Get Started</Button>
+					<Button className="mr-4">Get Started</Button>
 				</Link>
 				<Navbar.Toggle />
 			</div>
